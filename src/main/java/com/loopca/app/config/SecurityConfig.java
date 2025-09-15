@@ -32,7 +32,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())  // CSRF 토큰 비활성화 (API 서버에서는 보통 disable)
             .cors(cors -> {}) // CORS 허용 활성화
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/signup", "/api/auth/login").permitAll() // 누구나 접근
+                    .requestMatchers("/api/auth/signup", "/api/auth/login", "/api/hello").permitAll() // 누구나 접근
                     .anyRequest().authenticated() // 나머지는 로그인 필요
             )
             .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

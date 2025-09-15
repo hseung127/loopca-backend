@@ -39,38 +39,4 @@ public class CardGroupController {
         return ResponseEntity.ok(groups); // 200 OK
     }
 
-
-
-/*
-    // 특정 그룹 조회
-    @GetMapping("/{groupId}")
-    public ResponseEntity<CardGroup> getGroup(
-            @RequestHeader("Authorization") String token,
-            @PathVariable Long groupId
-    ) {
-        if (!jwtTokenProvider.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        Long memberId = jwtTokenProvider.getMemberId(token);
-        CardGroup group = groupService.getGroup(groupId, memberId);
-        return ResponseEntity.ok(group);
-    }
-
-    // 그룹 삭제
-    @DeleteMapping("/{groupId}")
-    public ResponseEntity<Void> deleteGroup(
-            @RequestHeader("Authorization") String token,
-            @PathVariable Long groupId
-    ) {
-        if (!jwtTokenProvider.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        Long memberId = jwtTokenProvider.getMemberId(token);
-        groupService.deleteGroup(groupId, memberId);
-        return ResponseEntity.noContent().build();
-    }
-
-    */
 }

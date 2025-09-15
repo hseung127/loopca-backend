@@ -10,7 +10,7 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("#{'${cors.allowed-origins}'.split(',')}") // application.yml에서 불러오기
+    @Value("${cors.allowed-origins}") // application.yml에서 불러오기
     private List<String> allowedOrigins;
 
     @Override

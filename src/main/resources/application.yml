@@ -20,7 +20,7 @@ jwt:
   expiration: 360000000
 
 cors:
-  allowed-origins: "http://localhost:5173,https://loopca.vercel.app"
+  allowed-origins: "https://loopca.vercel.app"
 
 logging:
   level:

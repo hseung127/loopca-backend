@@ -48,8 +48,8 @@ jobs:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
-          source: "./deploy/*.jar"
-          target: "${{ secrets.DEV_EC2_APP_DIR }}/"
+          source: "build/libs/*.jar"
+          target: ${{ secrets.DEV_EC2_APP_DIR }}
 
       - name: Restart application on Dev EC2
         uses: appleboy/ssh-action@v0.1.6
@@ -57,12 +57,11 @@ jobs:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
-          envs: APP_DIR=${{ secrets.DEV_EC2_APP_DIR }}
           script: |
             echo "Stopping previous application..."
             pkill -f 'java -jar' || true
 
-            cd $APP_DIR
+            cd ${{ secrets.DEV_EC2_APP_DIR }}
 
             JAR_FILE=$(ls -t *.jar | head -n 1)
             echo "Starting new application: $JAR_FILE"

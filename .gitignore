@@ -1,4 +1,5 @@
 *.yml
+!.github/workflows/*.yml
 
 HELP.md
 .gradle

@@ -57,12 +57,14 @@ jobs:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
+          envs: APP_DIR=${{ secrets.DEV_EC2_APP_DIR }}
           script: |
             echo "Stopping previous application..."
             pkill -f 'java -jar' || true
 
-            cd ${{ secrets.DEV_EC2_APP_DIR }}
-            JAR_FILE=$(ls -t *.jar | head -n 1)
+            cd $APP_DIR
 
+            JAR_FILE=$(ls -t *.jar | head -n 1)
             echo "Starting new application: $JAR_FILE"
+
             nohup java -jar $JAR_FILE > app.log 2>&1 &

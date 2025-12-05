@@ -60,8 +60,11 @@ jobs:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
-
+          envs: APP_DIR
           script: |
+            
+            echo "APP_DIR = $APP_DIR"
+            
             echo "Stopping previous application..."
             
             pkill -f 'java -jar' || true

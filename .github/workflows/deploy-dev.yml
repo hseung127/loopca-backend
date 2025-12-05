@@ -87,8 +87,6 @@ jobs:
 
             echo "Starting new application: $JAR_FILE"
 
-            # 메모리 제한 -Xms256m -Xmx512m
+            # 메모리 제한 -Xms128m -Xmx256m
             # 실행시 yml 연결
-            nohup java -Xms256m -Xmx512m -jar "$APP_DIR/deploy/$JAR_FILE" --spring.config.location=file:$APP_DIR/application.yml > "$APP_DIR/app.log" 2>&1 &
-
-          
+            nohup java -Xms128m -Xmx256m -jar "$APP_DIR/deploy/$JAR_FILE" --spring.config.location=file:$APP_DIR/application.yml > "$APP_DIR/app.log" 2>&1 &

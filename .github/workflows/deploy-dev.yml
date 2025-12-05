@@ -62,18 +62,22 @@ jobs:
           key: ${{ secrets.DEV_EC2_KEY }}
           envs: APP_DIR
           script: |
+            APP_DIR="${APP_DIR}"
+
             echo "APP_DIR = $APP_DIR"
-            
+
             echo "Stopping previous application..."
             pkill -f 'java -jar' || true
-            
-            cd "$APP_DIR" || { echo "CD FAILED"; exit 1; }
-            ls -al
-            
+
             cd "$APP_DIR/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
+
+            echo "Current deploy directory:"
+            pwd
             ls -al
-            
-            JAR_FILE=$(ls -t *.jar | grep SNAPSHOT | grep -v plain | head -n 1)
+
+            JAR_FILE=$(ls -t *.jar | grep -v plain | head -n 1)
+
             echo "Starting new application: $JAR_FILE"
-            
-            nohup java -jar $JAR_FILE > ../app.log 2>&1 &
+
+            nohup java -jar "$APP_DIR/deploy/$JAR_FILE" > "$APP_DIR/app.log" 2>&1 &
+          

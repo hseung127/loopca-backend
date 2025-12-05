@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
           source: "./deploy/*.jar"
-          target: "${{ secrets.DEV_EC2_APP_DIR }}"
+          target: "${{ secrets.DEV_EC2_APP_DIR }}/"
 
       - name: Restart application on Dev EC2
         uses: appleboy/ssh-action@v0.1.6

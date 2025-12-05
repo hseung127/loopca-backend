@@ -1,4 +1,4 @@
-name: CI-CD Pipeline
+name: CI-CD Pipeline PRODUCTION
 
 on:
   push:
@@ -42,26 +42,26 @@ jobs:
           name: app
           path: ./deploy
 
-      - name: Copy jar to Dev EC2
+      - name: Copy jar to PROD EC2
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.DEV_EC2_HOST }}
-          username: ${{ secrets.DEV_EC2_USER }}
-          key: ${{ secrets.DEV_EC2_KEY }}
+          host: ${{ secrets.PROD_EC2_HOST }}
+          username: ${{ secrets.PROD_EC2_USER }}
+          key: ${{ secrets.PROD_EC2_KEY }}
           source: "./deploy/*.jar"
-          target: "${{ secrets.DEV_EC2_APP_DIR }}"
+          target: "${{ secrets.PROD_EC2_APP_DIR }}"
 
-      - name: Restart application on Dev EC2
+      - name: Restart application on PROD EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.DEV_EC2_HOST }}
-          username: ${{ secrets.DEV_EC2_USER }}
-          key: ${{ secrets.DEV_EC2_KEY }}
+          host: ${{ secrets.PROD_EC2_HOST }}
+          username: ${{ secrets.PROD_EC2_USER }}
+          key: ${{ secrets.PROD_EC2_KEY }}
           script: |
             echo "Stopping previous application..."
             pkill -f 'java -jar' || true
 
-            cd ${{ secrets.DEV_EC2_APP_DIR }}
+            cd ${{ secrets.PROD_EC2_APP_DIR }}
             JAR_FILE=$(ls -t *.jar | head -n 1)
 
             echo "Starting new application: $JAR_FILE"

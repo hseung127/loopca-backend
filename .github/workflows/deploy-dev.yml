@@ -64,10 +64,13 @@ jobs:
             
             cd ${{ secrets.DEV_EC2_APP_DIR }}/deploy
   
-            # plain.jar 제외하고 정상 JAR 찾기
-            JAR_FILE=$(ls -t *SNAPSHOT.jar | grep -v plain | head -n 1)
-  
+            echo "Files here:"
+            ls -al
+              
+            JAR_FILE=$(ls -t *.jar | grep SNAPSHOT | grep -v plain | head -n 1)
+            
             echo "Starting new application: $JAR_FILE"
+              
+            nohup java -jar $JAR_FILE > ../app.log 2>&1 &
 
-            nohup java -jar $JAR_FILE > app.log 2>&1 &
             

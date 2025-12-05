@@ -69,10 +69,14 @@ jobs:
             echo "Stopping previous application..."
             PID=$(pgrep -f 'java -jar')
             if [ -n "$PID" ]; then
+              echo "Killing old app: $PID"
               kill -9 $PID
+            else
+              echo "No existing app running"
             fi
   
   
+
             cd "$APP_DIR/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
 
             echo "Current deploy directory:"

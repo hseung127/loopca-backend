@@ -48,7 +48,7 @@ jobs:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
-          source: "./deploy/**/*.jar"
+          source: "./deploy/*.jar"
           target: ${{ secrets.DEV_EC2_APP_DIR }}
           strip_components: 1        # 폴더 제거하고 파일만 복사됨
           overwrite: true            # 기존 덮어쓰기

@@ -2,7 +2,7 @@ name: CI-CD Pipeline Develop
 
 on:
   push:
-    branches: [ "develop" ]   # develop 브랜치에 push 될 때만 실행됨
+    branches: [ "develop" ]  # develop 브랜치에 push 될 때만 실행됨
 
 jobs:
   build:
@@ -40,7 +40,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app
-          path: ./deploy
+          path: ./deploy   # JAR 파일 저장 경로
 
       - name: Copy jar to Dev EC2
         uses: appleboy/scp-action@v0.1.7
@@ -48,7 +48,7 @@ jobs:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
-          source: "build/libs/*.jar"
+          source: "./deploy/*.jar"
           target: ${{ secrets.DEV_EC2_APP_DIR }}
 
       - name: Restart application on Dev EC2

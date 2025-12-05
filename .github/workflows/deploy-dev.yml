@@ -62,10 +62,15 @@ jobs:
             
             pkill -f 'java -jar' || true
             
-            cd ${{ secrets.DEV_EC2_APP_DIR }}/deploy
-  
-            echo "Files here:"
+            cd "${{ secrets.DEV_EC2_APP_DIR }}"
+            pwd
             ls -al
+              
+            cd "${{ secrets.DEV_EC2_APP_DIR }}/deploy"
+            pwd
+            ls -al
+  
+
               
             JAR_FILE=$(ls -t *.jar | grep SNAPSHOT | grep -v plain | head -n 1)
             
@@ -73,4 +78,3 @@ jobs:
               
             nohup java -jar $JAR_FILE > ../app.log 2>&1 &
 
-            

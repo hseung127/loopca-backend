@@ -8,6 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      APP_DIR: ${{ secrets.DEV_EC2_APP_DIR }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -57,16 +60,17 @@ jobs:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
+
           script: |
             echo "Stopping previous application..."
             
             pkill -f 'java -jar' || true
             
-            cd "${{ secrets.DEV_EC2_APP_DIR }}" || { echo "CD FAILED"; exit 1; }
+            cd "$APP_DIR" || { echo "CD FAILED"; exit 1; }
             pwd
             ls -al
             
-            cd "${{ secrets.DEV_EC2_APP_DIR }}/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
+            cd "$APP_DIR/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
             pwd
             ls -al
   

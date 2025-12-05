@@ -77,7 +77,7 @@ jobs:
   
   
 
-            cd "$APP_DIR/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
+            cd "/home/ubuntu/loopca/dev-app/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
 
             echo "Current deploy directory:"
             pwd
@@ -89,4 +89,4 @@ jobs:
 
             # 메모리 제한 -Xms128m -Xmx256m
             # 실행시 yml 연결
-            nohup java -Xms128m -Xmx256m -jar "$APP_DIR/deploy/$JAR_FILE" --spring.config.location=file:$APP_DIR/application.yml > "$APP_DIR/app.log" 2>&1 &
+            nohup java -Xms128m -Xmx256m -jar "/home/ubuntu/loopca/dev-app/deploy/$JAR_FILE" --spring.config.location=file:/home/ubuntu/loopca/dev-app/application.yml > "/home/ubuntu/loopca/dev-app/app.log" 2>&1 &

@@ -62,11 +62,11 @@ jobs:
             
             pkill -f 'java -jar' || true
             
-            cd "${{ secrets.DEV_EC2_APP_DIR }}"
+            cd "${{ secrets.DEV_EC2_APP_DIR }}" || { echo "CD FAILED"; exit 1; }
             pwd
             ls -al
-              
-            cd "${{ secrets.DEV_EC2_APP_DIR }}/deploy"
+            
+            cd "${{ secrets.DEV_EC2_APP_DIR }}/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
             pwd
             ls -al
   

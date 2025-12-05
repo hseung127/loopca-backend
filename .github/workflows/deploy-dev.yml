@@ -2,14 +2,14 @@ name: CI-CD Pipeline Develop
 
 on:
   push:
-    branches: [ "develop" ]  # develop 브랜치에 push 될 때만 실행됨
+    branches: [ "develop" ]    # develop 브랜치에 push 될 때만 실행
+
+env:   # 모든 job에 적용
+  APP_DIR: ${{ secrets.DEV_EC2_APP_DIR }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    env:
-      APP_DIR: ${{ secrets.DEV_EC2_APP_DIR }}
 
     steps:
       - name: Checkout repository
@@ -43,7 +43,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app
-          path: ./deploy   # JAR 파일 저장 경로
+          path: ./deploy     # JAR 파일 저장 경로
 
       - name: Copy jar to Dev EC2
         uses: appleboy/scp-action@v0.1.7
@@ -62,26 +62,18 @@ jobs:
           key: ${{ secrets.DEV_EC2_KEY }}
           envs: APP_DIR
           script: |
-            
             echo "APP_DIR = $APP_DIR"
             
             echo "Stopping previous application..."
-            
             pkill -f 'java -jar' || true
             
             cd "$APP_DIR" || { echo "CD FAILED"; exit 1; }
-            pwd
             ls -al
             
             cd "$APP_DIR/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
-            pwd
             ls -al
-  
-
-              
-            JAR_FILE=$(ls -t *.jar | grep SNAPSHOT | grep -v plain | head -n 1)
             
+            JAR_FILE=$(ls -t *.jar | grep SNAPSHOT | grep -v plain | head -n 1)
             echo "Starting new application: $JAR_FILE"
-              
+            
             nohup java -jar $JAR_FILE > ../app.log 2>&1 &
-

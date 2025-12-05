@@ -67,8 +67,12 @@ jobs:
             echo "APP_DIR = $APP_DIR"
 
             echo "Stopping previous application..."
-            pkill -f 'java -jar' || true
-
+            PID=$(pgrep -f 'java -jar')
+            if [ -n "$PID" ]; then
+              kill -9 $PID
+            fi
+  
+  
             cd "$APP_DIR/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
 
             echo "Current deploy directory:"

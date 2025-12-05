@@ -92,13 +92,5 @@ jobs:
 
             # 메모리 제한 -Xms128m -Xmx256m
             # 실행시 yml 연결
-            # nohup java -Xms128m -Xmx256m -jar "/home/ubuntu/loopca/dev-app/deploy/$JAR_FILE" --spring.config.location=file:/home/ubuntu/loopca/dev-app/application.yml > "/home/ubuntu/loopca/dev-app/app.log" 2>&1 &
+            nohup java -Xms128m -Xmx256m -jar "$APP_DIR/deploy/$JAR_FILE" --spring.config.location=file:$APP_DIR/application.yml > "$APP_DIR/app.log" 2>&1 &
 
-            nohup java \
-            -Xms128m -Xmx256m \
-            -XX:MaxMetaspaceSize=96m \
-            -XX:ReservedCodeCacheSize=64m \
-            -XX:+UseSerialGC \
-            -jar "$APP_DIR/deploy/$JAR_FILE" \
-            --spring.config.location=file:$APP_DIR/application.yml \
-            > "$APP_DIR/app.log" 2>&1 &

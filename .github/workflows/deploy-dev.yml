@@ -67,7 +67,9 @@ jobs:
             echo "APP_DIR = $APP_DIR"
 
             echo "Stopping previous application..."
-            PID=$(pgrep -f 'java -jar')
+            
+            PID=$(pgrep -f "$JAR_FILE")
+
             if [ -n "$PID" ]; then
               echo "Killing old app: $PID"
               kill -9 $PID
@@ -89,4 +91,13 @@ jobs:
 
             # 메모리 제한 -Xms128m -Xmx256m
             # 실행시 yml 연결
-            nohup java -Xms128m -Xmx256m -jar "/home/ubuntu/loopca/dev-app/deploy/$JAR_FILE" --spring.config.location=file:/home/ubuntu/loopca/dev-app/application.yml > "/home/ubuntu/loopca/dev-app/app.log" 2>&1 &
+            # nohup java -Xms128m -Xmx256m -jar "/home/ubuntu/loopca/dev-app/deploy/$JAR_FILE" --spring.config.location=file:/home/ubuntu/loopca/dev-app/application.yml > "/home/ubuntu/loopca/dev-app/app.log" 2>&1 &
+
+            nohup java \
+            -Xms128m -Xmx256m \
+            -XX:MaxMetaspaceSize=96m \
+            -XX:ReservedCodeCacheSize=64m \
+            -XX:+UseSerialGC \
+            -jar "/home/ubuntu/loopca/dev-app/deploy/$JAR_FILE" \
+            --spring.config.location=file:/home/ubuntu/loopca/dev-app/application.yml \
+            > "/home/ubuntu/loopca/dev-app/app.log" 2>&1 &

@@ -68,7 +68,7 @@ jobs:
 
             echo "Stopping previous application..."
             
-            
+            # 8080 포트 프로세스 종료
             PID=$(lsof -t -i:8080)
 
             if [ -n "$PID" ]; then
@@ -80,7 +80,7 @@ jobs:
   
   
 
-            cd "/home/ubuntu/loopca/dev-app/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
+            cd "$APP_DIR/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
 
             echo "Current deploy directory:"
             pwd
@@ -99,6 +99,6 @@ jobs:
             -XX:MaxMetaspaceSize=96m \
             -XX:ReservedCodeCacheSize=64m \
             -XX:+UseSerialGC \
-            -jar "/home/ubuntu/loopca/dev-app/deploy/$JAR_FILE" \
-            --spring.config.location=file:/home/ubuntu/loopca/dev-app/application.yml \
-            > "/home/ubuntu/loopca/dev-app/app.log" 2>&1 &
+            -jar "$APP_DIR/deploy/$JAR_FILE" \
+            --spring.config.location=file:$APP_DIR/application.yml \
+            > "$APP_DIR/app.log" 2>&1 &

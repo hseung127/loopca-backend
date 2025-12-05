@@ -40,7 +40,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app
-          path: "./deploy"   # JAR 파일 저장 경로
+          path: ./deploy   # JAR 파일 저장 경로
 
       - name: Copy jar to Dev EC2
         uses: appleboy/scp-action@v0.1.7
@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
           source: "./deploy/*.jar"
-          target: "${{ secrets.DEV_EC2_APP_DIR }}"
+          target: ${{ secrets.DEV_EC2_APP_DIR }}
 
       - name: Restart application on Dev EC2
         uses: appleboy/ssh-action@v0.1.6
@@ -61,8 +61,13 @@ jobs:
             echo "Stopping previous application..."
             pkill -f 'java -jar' || true
 
-            cd "${{ secrets.DEV_EC2_APP_DIR }}"            
-
+            cd ${{ secrets.DEV_EC2_APP_DIR }}
+            
+            echo "Current directory:"
+            pwd
+            echo "Files here:"
+            ls -al
+  
             # plain.jar 제외하고 정상 JAR 찾기
             JAR_FILE=$(ls -t *SNAPSHOT.jar | grep -v plain | head -n 1)
   

@@ -50,6 +50,8 @@ jobs:
           key: ${{ secrets.DEV_EC2_KEY }}
           source: "./deploy/**/*.jar"
           target: ${{ secrets.DEV_EC2_APP_DIR }}
+          strip_components: 1        # 폴더 제거하고 파일만 복사됨
+          overwrite: true            # 기존 덮어쓰기
 
       - name: Restart application on Dev EC2
         uses: appleboy/ssh-action@v0.1.6

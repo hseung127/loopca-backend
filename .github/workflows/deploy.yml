@@ -1,8 +1,8 @@
-name: Deploy to Dev Server
+name: CI-CD Pipeline
 
 on:
   push:
-    branches: [ "develop" ]   # develop 브랜치에 push 될 때만 실행됨
+    branches: [ "main" ]   # main 브랜치에 push 될 때만 실행됨
 
 jobs:
   build:

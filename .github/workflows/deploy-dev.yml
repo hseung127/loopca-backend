@@ -68,7 +68,8 @@ jobs:
 
             echo "Stopping previous application..."
             
-            PID=$(pgrep -f "$JAR_FILE")
+            
+            PID=$(lsof -t -i:8080)
 
             if [ -n "$PID" ]; then
               echo "Killing old app: $PID"

@@ -48,7 +48,7 @@ jobs:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
-          source: "./deploy/*.jar"
+          source: "./deploy/**/*.jar"
           target: ${{ secrets.DEV_EC2_APP_DIR }}
 
       - name: Restart application on Dev EC2

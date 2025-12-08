@@ -63,14 +63,11 @@ jobs:
           envs: APP_DIR
           script: |
             APP_DIR="${APP_DIR}"
-
-            echo "APP_DIR = $APP_DIR"
-
+            
             echo "Stopping previous application..."
             
             # 8080 포트 프로세스 종료
             PID=$(lsof -t -i:8080)
-
             if [ -n "$PID" ]; then
               echo "Killing old app: $PID"
               kill -9 $PID
@@ -78,13 +75,7 @@ jobs:
               echo "No existing app running"
             fi
   
-  
-
             cd "$APP_DIR/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
-
-            echo "Current deploy directory:"
-            pwd
-            ls -al
 
             JAR_FILE=$(ls -t *.jar | grep -v plain | head -n 1)
 

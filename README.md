@@ -1,7 +1,5 @@
 # 스마트 암기카드 - Backend
  
-> 암기카드 웹 서비스 백엔드
- 
 ## 기술 스택
 `Java` `Spring Boot` `MySQL` `JPA` `Docker` `AWS EC2` `GitHub Actions`
  

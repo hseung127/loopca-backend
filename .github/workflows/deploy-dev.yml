@@ -55,26 +55,28 @@ jobs:
           target: ${{ secrets.DEV_EC2_APP_DIR }}
 
       - name: Restart application on Dev EC2
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.DEV_EC2_HOST }}
           username: ${{ secrets.DEV_EC2_USER }}
           key: ${{ secrets.DEV_EC2_KEY }}
           envs: APP_DIR
+          command_timeout: 60s
           script: |
             APP_DIR="${APP_DIR}"
-            
+
             echo "Stopping previous application..."
-            
+
             # 8080 포트 프로세스 종료
             PID=$(lsof -t -i:8080)
             if [ -n "$PID" ]; then
               echo "Killing old app: $PID"
               kill -9 $PID
+              sleep 3
             else
               echo "No existing app running"
             fi
-  
+
             cd "$APP_DIR/deploy" || { echo "DEPLOY CD FAILED"; exit 1; }
 
             JAR_FILE=$(ls -t *.jar | grep -v plain | head -n 1)
@@ -83,5 +85,8 @@ jobs:
 
             # 메모리 제한 -Xms128m -Xmx256m
             # 실행시 yml 연결
-            nohup java -Xms128m -Xmx256m -jar "$APP_DIR/deploy/$JAR_FILE" --spring.config.location=file:$APP_DIR/application.yml > "$APP_DIR/app.log" 2>&1 &
+            nohup java -Xms128m -Xmx256m -jar "$APP_DIR/deploy/$JAR_FILE" --spring.config.location=file:$APP_DIR/application.yml > "$APP_DIR/app.log" 2>&1 < /dev/null &
+            disown
+            echo "Application started successfully"
+            exit 0
 
